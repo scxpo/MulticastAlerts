@@ -8,7 +8,8 @@ public class Client {
     public static void main(String[] args) {
         try (MulticastSocket socket = new MulticastSocket(PORT)) {
             InetAddress group = InetAddress.getByName(MULTICAST_ADDRESS);
-            socket.joinGroup(group);
+            NetworkInterface netIf = NetworkInterface.getByInetAddress(InetAddress.getLocalHost());
+            socket.joinGroup(new InetSocketAddress(group, PORT), netIf);
             
             System.out.println("Client in ascolto sui messaggi di emergenza...");
             byte[] buffer = new byte[256];
